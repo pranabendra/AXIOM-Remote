@@ -36,6 +36,10 @@ class Painter
 protected:
     volatile uint16_t* _framebuffer;
 
+    // Variables to store the weighted sums for both axes
+    uint32_t xWeightedSum;
+    uint32_t yWeightedSum;
+
   public:
     Painter(volatile uint16_t* framebuffer, uint16_t framebufferWidth, uint8_t framebufferHeight);
 
@@ -61,6 +65,9 @@ protected:
     // Misc
     void DrawImage(const uint8_t* data, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
     virtual void DrawPixel(uint16_t x, uint16_t y, uint16_t color);
+
+    // Icon
+    void DrawIcon(const uint8_t* data, uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t foregroundColor, uint16_t backgroundColor);
 
     void Fill(uint16_t fillColor);
 

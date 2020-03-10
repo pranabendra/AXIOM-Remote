@@ -5,6 +5,9 @@
 
 #include "../Firmware/UI/Painter.h"
 
+// For testing the new image
+#include "./Media/Images/ApertusLogoCropped.h"
+
 #define FRAMEBUFFER_WIDTH 320
 #define FRAMEBUFFER_HEIGHT 240
 
@@ -49,6 +52,12 @@ class PainterMod : public Painter
 
         std::cout << "Invalid position" << std::endl;
         return 0;
+    }
+
+    // Checks whether the icon is 
+    bool MatchBound(uint32_t x, uint32_t y)
+    {
+        return (xWeightedSum == x && yWeightedSum == y);
     }
 };
 

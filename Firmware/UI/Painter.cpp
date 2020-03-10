@@ -8,6 +8,9 @@
 #include "../Media/Fonts/FreeSans9pt7b.h"
 #include "../Media/Fonts/FreeSans12pt7b.h"
 #include "../Media/Fonts/FreeSans18pt7b.h"
+
+#include "./Screens/IScreen.h"
+
 #include "../Media/Fonts/FreeSans24pt7b.h"
 
 #define _swap_int16_t(a, b)                                                                                            \
@@ -293,6 +296,47 @@ void Painter::DrawImage(const uint8_t* data, uint16_t x, uint16_t y, uint16_t wi
             uint16_t color = ((uint16_t)value1 << 8) | value2;
 
             DrawPixel(x + xIndex, y + yIndex, color);
+        }
+    }
+}
+
+//  DrawIcon() taking DrawImage() as the reference for variable names and data types
+void Painter::DrawIcon(const uint8_t* data, uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t foregroundColor, uint16_t backgroundColor)
+{
+    xWeightedSum = 0;
+    yWeightedSum = 0;
+
+    if (backgroundColor == 0)
+    {
+        // If backgroundColor is 0, then for transparent background, backgroundColor is set to Screen Background Color
+
+        IScreen iscreen;
+        backgroundColor = (uint16_t)iscreen.GetBackgroundColor();
+    }
+
+    for (uint16_t yIndex = 0; yIndex < height; yIndex++)
+    {
+        for (uint16_t xIndex = 0; xIndex < width; xIndex++)
+        {
+            uint8_t pixelvalue = data[(width * yIndex) + xIndex];
+
+            // uint16_t color = (((uint16_t)value << 8) | value) & backgroundColor;
+            uint16_t  value = (((uint16_t)pixelvalue << 8) | pixelvalue);
+            uint16_t color =  (value & backgroundColor) | (~value & foregroundColor);
+
+            // If the pixel value is black (0), then draw foregroundColor
+            // If the pixel value is white (255), then draw backgroundColor
+
+            // Check if index not out of bound
+            if ((x + xIndex) < 320 && (x + xIndex) >= 0 && (y + yIndex) < 240 && (y + yIndex) >= 0)
+            {
+                DrawPixel(x + xIndex, y + yIndex, color);
+
+                // Computes the weighted sum of both the axes
+                xWeightedSum += (pixelvalue / 255) * xIndex;
+                yWeightedSum += (pixelvalue / 255) * yIndex;
+            }
+            
         }
     }
 }

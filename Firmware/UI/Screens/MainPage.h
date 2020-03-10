@@ -6,7 +6,9 @@
 
 #include "../Widgets/MainPageButton.h"
 
-#include "../../Media/Images/ApertusLogo.h"
+// #include "../../Media/Images/ApertusLogo.h"
+#include "../../Media/Images/ApertusIconApertus.h"
+#include "../../Media/Images/ApertusIconDegree.h"
 
 #include "../ButtonDefinitions.h"
 
@@ -34,7 +36,7 @@ class MainPage : public IMenu
 
   public:
     MainPage(IUSBDevice* cdcDevice);
-    
+
   protected:
     virtual Color565 GetBackgroundColor() override;
     virtual void SetBackgroundColor(Color565 color);

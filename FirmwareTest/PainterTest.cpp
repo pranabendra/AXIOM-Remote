@@ -135,3 +135,16 @@ TEST_CASE("DrawPixel test")
 
     REQUIRE(painter.GetPixel(20, 30) == 0x53);
 }
+
+// Testcase for DrawIcon() method
+// Checks whether the icon is contained in the screen completely or if some part is missing from the screen
+TEST_CASE("DrawIcon test")
+{
+    uint16_t* framebuffer = new uint16_t[FRAMEBUFFER_WIDTH * FRAMEBUFFER_HEIGHT];
+    PainterMod painter(framebuffer, FRAMEBUFFER_WIDTH, FRAMEBUFFER_HEIGHT);
+
+    painter.DrawIcon(apertus_logo_cropped.pixel_data, 0, 0, apertus_logo_cropped.width, apertus_logo_cropped.height, 0x0000, 0xFFFF);
+
+    REQUIRE(painter.MatchBound(1565412, 486524) == true);   // precomputed values
+}
+
